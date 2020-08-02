@@ -15,11 +15,11 @@ def mean(arr):
     return sum(arr) / len(arr)
 
 
-pwd = Path(".").resolve()
+data = Path("./data").resolve() # The location of the data files
 max_dict = {}
 open_dict = {}
 
-for i in find_csvs(pwd):
+for i in find_csvs(data):
     name = str(i)
     matrix = csv_to_matrix(name)[1:]
    max_diffs = [
@@ -38,11 +38,8 @@ for i in find_csvs(pwd):
     max_dict.update(
         {i.name.replace("-max-clean.csv", ""): avg_maxdiff}
     )  # At the end, we have each companies average max-min fluctuation over that period
-    open_dict.update({i.name.replace("-max-clean.csv", ""): avg_opendiff})
-
-# Sorted for convenience, should you desire to print them
-max_dict = {k: v for k, v in sorted(max_dict.items(), key=lambda item: item[1])}
-open_dict = {k: v for k, v in sorted(open_dict.items(), key=lambda item: item[1])}
+    open_dict.update({i.name.replace(".csv", ""): avg_opendiff})
+    
 
 avg_max = mean([i[1] for i in max_dict.items()])
 avg_open = mean([i[1] for i in open_dict.items()])
